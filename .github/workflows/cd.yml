@@ -20,3 +20,12 @@ jobs:
 
       - name: Build app
         run: ./scripts/buildprod.sh
+
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+      - uses: google-github-actions/setup-gcloud@v3
+
+      - name: Build docker image
+        run: gcloud builds submit --tag europe-southwest1-docker.pkg.dev/corded-palisade-501118-e7/notely-ar-repo/notely:latest .
