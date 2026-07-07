@@ -9,6 +9,8 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
 
+    env: DATABASE_URL ${{ secrets.DATABASE_URL }}
+
     steps:
       - name: Check out code
         uses: actions/checkout@v6
@@ -32,3 +34,6 @@ jobs:
 
       - name: Deploy to Cloud Run
         run: gcloud run deploy notely --image europe-southwest1-docker.pkg.dev/corded-palisade-501118-e7/notely-ar-repo/notely:latest --region us-central1 --allow-unauthenticated --project corded-palisade-501118-e7 --max-instances=4
+
+      - name: Migrate Database up
+        run: ./scripts/migrateup.sh
